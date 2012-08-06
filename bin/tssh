@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+function ssh_to_dev(){
+    ssh teafly@10.16.90.19
+}
+
+function ssh_to_nb(){
+    ssh admin@nb.alibaba-inc.com
+}
+
+function ssh_to_ol(){
+    ssh shenghua.zhangsh@shterm.alibaba-inc.com
+}
+
+function ssh_to_other(){
+    ssh teafly@10.16.90.19
+}
+
+[ "$1" == '' ] && echo 'input mod please!'
+
+case $1 in
+    'dev')
+        ssh_to_dev;;
+    'nb')
+        ssh_to_nb;;
+    'ol')
+        ssh_to_ol;;
+    '*')
+        ssh_to_other;;
+esac
+
