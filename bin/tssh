@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function ssh_to_dev(){
-    ssh teafly@10.16.90.19
+    ssh teafly@10.12.9.103
 }
 
 function ssh_to_nb(){
@@ -12,20 +12,39 @@ function ssh_to_ol(){
     ssh shenghua.zhangsh@shterm.alibaba-inc.com
 }
 
-function ssh_to_other(){
-    ssh teafly@10.16.90.19
+function _proxy(){
+    pid=`lsof -i tcp:8000 -P | grep 'ssh' | awk '{print $2}' | uniq`
+    [ "$pid" == "" ] || kill -9 $pid
+    ssh -qTfnN -D 8000 zhangsh@av.5bird.com
 }
 
-[ "$1" == '' ] && echo 'input mod please!'
+function _help(){
+cat <<EOF
 
-case $1 in
+tssh ( Teafly SSH Tools )
+===============================================================
+
+    dev     --- ssh to development computor via teafly account
+    nb      --- ssh to nb server via admin account
+    ol      --- ssh to online server
+    proxy   --- proxy via killwall, port: 8000
+    help    --- for this
+
+===============================================================
+EOF
+}
+
+case "$1" in
     'dev')
         ssh_to_dev;;
     'nb')
         ssh_to_nb;;
     'ol')
         ssh_to_ol;;
-    '*')
-        ssh_to_other;;
+    'proxy')
+        _proxy;;
+    'help')
+        _help;;
+    *)
+        _help;;
 esac
-
