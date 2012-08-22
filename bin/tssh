@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function ssh_to_dev(){
-    ssh teafly@10.12.9.103
+    ssh teafly@10.12.135.2
 }
 
 function ssh_to_nb(){
