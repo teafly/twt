@@ -1,0 +1,5 @@
+#/usr/bin/env bash
+
+url="$1"
+
+svn diff -r`svn log --stop-on-copy "$url" | grep 'admin.for.perth' | awk '{print $1}'`:HEAD "$url" | less

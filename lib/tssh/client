@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+post_ip(){
+
+    ip=$1
+    if [[ -z "$ip" ]]; then
+        ip=`/sbin/ifconfig | grep -e "inet.*Bcast.*Mask" | awk '{print $2}' | awk -F ':' '{print $2}'`
+    fi
+
+    if [[ ! -z "$ip" ]]; then
+        curl -s "http://10.17.200.72:4567/ip/${ip}"
+    fi
+}
+
+get_ip(){
+
+    curl "http://10.17.200.72:4567/ip"
+}
+
+case $1 in
+    post)
+        post_ip $2;;
+    get)
+        get_ip;;
+    *)
+        echo "faild!";;
+esac

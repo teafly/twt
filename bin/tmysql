@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+_help(){
+
+cat <<END
+    seo_old old seo test env
+    seo     seo test env
+    pro     pro env
+    mapost  ma posting test env
+END
+
+}
+
+case $1 in
+    'seo')
+        mysql -u seo -h 10.230.230.168 -P3406 -pseoseo  seo
+        ;;
+    'seo_old')
+        mysql -u seo -h 10.20.149.13 -pseo  seo
+        ;;
+    'pro')
+        mysql -u seo_shenghua -h 10.20.147.144 -pseo_shenghua  seo_shenghua
+        ;;
+    'mapost')
+        mysql -h 10.20.146.88 -u intl_multilang -P 8066 -pintl_multilang intl_multilang_dev
+        ;;
+    *)
+        _help
+        ;;
+esac
+

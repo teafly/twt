@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+
+BASE_PATH="$HOME/.thm"
+HOST_PATH="$BASE_PATH/hosts"
+COMMON_FILE="$BASE_PATH/common"
+[[ -d $HOST_PATH ]] || mkdir -p $HOST_PATH
+[[ -f $COMMON_FILE ]] || touch $COMMON_FILE
+
+_vi(){
+
+    file="$HOST_PATH/$1"
+    vim $file
+}
+
+get_filename(){
+
+	echo "$HOST_PATH/$1"
+}
+
+_remove(){
+
+	files=(`ls $HOST_PATH`)
+	select filename in "exit" ${files[@]}; do
+	
+		if [[ $filename == "exit" ]]; then
+			exit 0
+		else
+    		file=`get_filename $filename`
+			rm -f $file
+			_remove
+		fi
+	done
+}
+
+_create(){
+
+	filename=""
+	while [[ -z $filename ]]; do
+
+		read -p "host filename: " -r
+		filename=$REPLY
+		if [[ -f `get_filename $filename` ]]; then
+			echo "host filename has exist."
+			filename=""
+		fi
+	done
+	_vi $filename
+}
+
+_update(){
+
+	
+	files=(`ls $HOST_PATH`)
+	
+	select filename in "common" ${files[@]}; do
+	
+		if [[ $filename == "common" ]]; then
+
+			vim $COMMON_FILE
+		
+		else
+			vim `get_filename $filename`
+		fi
+
+		break
+	done
+}
+
+
+_switch(){
+
+	
+	files=(`ls $HOST_PATH`)
+	
+	select filename in "common" ${files[@]}; do
+	
+		if [[ $filename == "common" ]]; then
+
+			sudo cp $COMMON_FILE /etc/hosts
+			break
+		elif [[ ! -z $filename ]]; then
+			file=`get_filename $filename`
+			tmpfile="/tmp/switch_host_file.tmp"
+			cat $COMMON_FILE > $tmpfile
+			cat $file >> $tmpfile
+			sudo cp $tmpfile /etc/hosts
+			rm -f tmpfile
+			break
+		fi
+	done
+}
+
+#main
+
+while true ; do
+
+	OPTIONS=("create" "update" "switch" "remove" "exit")
+	select file in ${OPTIONS[@]}; do
+	
+		case $file in
+			"create")
+				_create
+				break;;
+			"update")
+				_update
+				break;;
+			"remove")
+				_remove
+				break;;
+			"switch")
+				_switch
+				break;;
+			"exit")
+				exit 0;;
+		esac
+	done
+done

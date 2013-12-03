@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'sinatra'
+require 'fileutils'
+
+dir = $*[0]
+ip_file = "#{dir}/ip"
+
+FileUtils.mkdir_p dir unless Dir.exist? dir
+FileUtils.touch ip_file unless File.exist? ip_file
+
+get '/ip' do
+    `cat #{ip_file}`
+end
+
+get '/ip/:ip' do |ip|
+    `echo "#{ip}" > #{ip_file}`
+    ip
+end
