@@ -234,7 +234,7 @@ module Tdev
         end
       end
 
-      unless @standalones.nil?  || @standlaones.empty?
+      unless @standalones.nil?  || @standalones.empty?
 
         @standalones.split("\s").each do |num|
 
@@ -258,7 +258,7 @@ module Tdev
         end
       end
 
-      unless @standalones.nil?  || @standaones.empty?
+      unless @standalones.nil?  || @standalones.empty?
 
         @standalones.split("\s").each do |num|
 
@@ -313,23 +313,14 @@ module_op = OptionParser.new do |opts|
 
   opts.banner = 'Here is help messages of the tdev tool.'
 
-  opts.on do
-    Tdev::Module.new(dir).build
-  end
-
-  opts.on('build', 'build module') do
-    Tdev::Module.new(dir).build
-  end
-
+  Tdev::Module.new(dir).build
 end
 
 app_op = OptionParser.new do |opts|
 
   opts.banner = 'Here is help messages of the tdev tool.'
 
-  opts.on do
-    Tdev::App.new(dir).deploy
-  end
+  Tdev::App.new(dir).deploy
 
   opts.on('cp-conf', 'copy the config to app') do
     Tdev::App.new(dir).cp_conf
@@ -365,9 +356,7 @@ standalone_op = OptionParser.new do |opts|
 
   opts.banner = 'Here is help messages of the tdev tool.'
 
-  opts.on do
-    Tdev::Standalone.new(dir).deploy
-  end
+  Tdev::Standalone.new(dir).deploy
 
   opts.on('cp-conf', 'copy the config to standalone') do
     Tdev::Standalone.new(dir).cp_conf
@@ -399,9 +388,7 @@ proj_op = OptionParser.new do |opts|
 
   opts.banner = 'Here is help messages of the tdev tool.'
 
-  opts.on do
-    Tdev::Project.new(dir).deploy
-  end
+  Tdev::Project.new(dir).deploy
 
   opts.on('init', 'init project') do
     Tdev::Project.new(dir).init
@@ -417,7 +404,7 @@ proj_op = OptionParser.new do |opts|
 
 end
 
-case $mod 
+case $mod
 when 'project'
   proj_op.parse!
 when 'app'

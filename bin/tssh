@@ -1,21 +1,25 @@
 #!/usr/bin/env bash
 
 function ssh_to_dev(){
-    ssh teafly@10.12.135.2
+    ssh admin@10.16.14.49
 }
 
 function ssh_to_nb(){
-    ssh admin@nb.alibaba-inc.com
+    ssh shenghua.zhangsh@nb.alibaba-inc.com
+}
+
+function ssh_to_aliyun(){
+    ssh admin@115.29.167.182
 }
 
 function ssh_to_ol(){
-    ssh shenghua.zhangsh@shterm.alibaba-inc.com
+    ssh shenghua.zhangsh@login1.cm4.taobao.org
 }
 
 function _proxy(){
     pid=`lsof -i tcp:8000 -P | grep 'ssh' | awk '{print $2}' | uniq`
     [ "$pid" == "" ] || kill -9 $pid
-    ssh -qTfnN -D 8000 zhangsh@av.5bird.com
+    ssh -qTfnN -D 8000 zhangsh@hk.5bird.com
 }
 
 function _help(){
@@ -41,6 +45,8 @@ case "$1" in
         ssh_to_nb;;
     'ol')
         ssh_to_ol;;
+	'ay')
+		ssh_to_aliyun;;
     'proxy')
         _proxy;;
     'help')
